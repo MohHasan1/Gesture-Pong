@@ -1,8 +1,34 @@
+"""
+Hand Gesture Pong Game
+
+This program uses OpenCV and MediaPipe for hand gesture detection to control a Pong paddle in Pygame. 
+The player's paddle movement is controlled by the y-coordinate of the index finger detected from the webcam. 
+The opponent paddle is controlled by a simple AI, which tracks the ball's position. 
+
+Key Features:
+- Real-time hand gesture detection for paddle control
+- Pygame handles rendering, scoring, and game mechanics
+- Smooth gameplay with frame rate capped at 120 FPS
+
+Modules:
+- OpenCV: Captures webcam feed and processes hand landmarks.
+- MediaPipe: Detects hand landmarks, focusing on index finger position.
+- Pygame: Manages game display, ball physics, paddle collision, and score tracking.
+
+Instructions:
+- The game starts with the ball in the center.
+- Move your hand up and down to control the player paddle on the right side.
+- Score by bouncing the ball past the opponent paddle.
+- The game displays the score in real-time, with an automatic reset after scoring.
+- To exit the game, close the game window, not the webcam.
+"""
+
+
 import cv2 as cv
 import random
 import pygame
 import sys
-from handDetector import HandDetector
+from _handDetector import HandDetector
 
 # Initialize OpenCV
 cap = cv.VideoCapture(0)
@@ -89,7 +115,7 @@ def ball_animation():
         elif abs(ball.top - opponent.bottom) < 10 and ball_speed_y < 0:
             ball_speed_y *= -1
 
-# Player animation with faster movement
+# Player animation
 def player_animation(frame):
     global player_speed  # Declare player_speed as global to modify it
     
@@ -121,15 +147,18 @@ def player_animation(frame):
 
 # Opponent AI
 def opponent_ai():
-    if opponent.top < ball.y:
-        opponent.y += 7
-    if opponent.bottom > ball.y:
-        opponent.y -= 7
+    # Move the opponent paddle towards the ball's y position at a controlled speed
+    if opponent.centery < ball.centery:
+        opponent.y += 9  # Move down if the paddle's center is above the ball
+    elif opponent.centery > ball.centery:
+        opponent.y -= 9  # Move up if the paddle's center is below the ball
 
+    # Boundary checks to keep the paddle within screen limits
     if opponent.top <= 0:
         opponent.top = 0
     if opponent.bottom >= screen_height:
         opponent.bottom = screen_height
+
 
 # Ball start/reset after scoring
 def ball_start():
@@ -155,7 +184,7 @@ def ball_start():
         ball_speed_y = 10 * random.choice((1, -1))  # Increase multiplier
         score_time = None
 
-# Game loop
+################ main ##############
 while True:
     # Capture the frame from the webcam
     ret, frame = cap.read()

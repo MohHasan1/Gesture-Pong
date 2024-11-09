@@ -1,3 +1,20 @@
+"""
+Hand Detection Module using OpenCV and MediaPipe
+
+This module defines a `HandDetector` class that leverages MediaPipe's hand-tracking capabilities to detect and track hands in real-time. 
+The class provides methods to:
+1. Detect hands and draw landmarks on an input image.
+2. Extract pixel coordinates for all hand landmarks or specific landmarks by index.
+
+Methods:
+- `processHandImg(img)`: Processes an image to detect hands.
+- `showLandMarks(img)`: Draws hand landmarks on the image if hands are detected.
+- `getAllLandmarksPos(img, handNum=0)`: Returns a list of pixel coordinates for all landmarks of a specified hand.
+- `getLandmarksPosByIndex(img, handNum=0, index=[0], drawIndex=True, radius=25, color=(255,0,123))`: Returns coordinates for specific landmarks by index and optionally draws them on the image.
+
+Usage: This class can be used in real-time applications for hand detection and gesture-based interactions.
+"""
+
 import cv2 as cv
 import mediapipe as mp
 
