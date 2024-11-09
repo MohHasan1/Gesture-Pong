@@ -115,7 +115,35 @@ def ball_animation():
         elif abs(ball.top - opponent.bottom) < 10 and ball_speed_y < 0:
             ball_speed_y *= -1
 
-# Player animation
+# Player animation - window
+# def player_animation(frame):
+#     global player_speed  # Declare player_speed as global to modify it
+
+#     # Get the hand Y position using OpenCV
+#     hand_y = get_hand_position(frame)
+
+#     if hand_y is not None:
+#         # Normalize the hand_y position to the screen height
+#         normalized_hand_y = int(hand_y * screen_height / frame.shape[0])
+
+#         # Update player position
+#         if player.centery < normalized_hand_y:
+#             player_speed = min(max_speed, player_speed + 3)  # Move down faster
+#         elif player.centery > normalized_hand_y:
+#             player_speed = max(-max_speed, player_speed - 3)  # Move up faster
+#         else:
+#             player_speed = 0  # Stop if aligned with hand
+
+#         # Apply the speed to the player position
+#         player.y += player_speed
+
+#         # Boundary checks to keep the paddle within screen limits
+#         if player.top <= 0:
+#             player.top = 0
+#         if player.bottom >= screen_height:
+#             player.bottom = screen_height
+
+# Player animation - mac/linux
 def player_animation(frame):
     global player_speed  # Declare player_speed as global to modify it
     
